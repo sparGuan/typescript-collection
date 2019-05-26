@@ -1,19 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var PriorityQueue = /** @class */ (function () {
-    function PriorityQueue() {
+class PriorityQueue {
+    constructor() {
         this.collection = [];
     }
-    PriorityQueue.prototype.printCollection = function () {
+    printCollection() {
         console.log(this.collection);
-    };
-    PriorityQueue.prototype.enqueue = function (element) {
+    }
+    enqueue(element) {
         if (this.isEmpty()) {
             this.collection.push(element);
         }
         else {
-            var added = false;
-            for (var i = 0; i < this.collection.length; i++) {
+            let added = false;
+            for (let i = 0; i < this.collection.length; i++) {
                 if (element[1] < this.collection[i][1]) {
                     // checking priorities
                     this.collection.splice(i, 0, element);
@@ -25,23 +25,22 @@ var PriorityQueue = /** @class */ (function () {
                 this.collection.push(element);
             }
         }
-    };
-    PriorityQueue.prototype.dequeue = function () {
-        var value = this.collection.shift();
+    }
+    dequeue() {
+        const value = this.collection.shift();
         return value[0];
-    };
-    PriorityQueue.prototype.first = function () {
+    }
+    first() {
         return this.collection[0];
-    };
-    PriorityQueue.prototype.last = function () {
+    }
+    last() {
         return this.collection[this.collection.length - 1];
-    };
-    PriorityQueue.prototype.size = function () {
+    }
+    size() {
         return this.collection.length;
-    };
-    PriorityQueue.prototype.isEmpty = function () {
+    }
+    isEmpty() {
         return this.collection.length === 0;
-    };
-    return PriorityQueue;
-}());
+    }
+}
 exports.default = PriorityQueue;

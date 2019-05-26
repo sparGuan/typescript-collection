@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var BinaryNode = /** @class */ (function () {
-    function BinaryNode(data, left, right) {
+class BinaryNode {
+    constructor(data, left, right) {
         this.data = data;
         this.left = left;
         this.right = right;
@@ -9,20 +9,19 @@ var BinaryNode = /** @class */ (function () {
         this.left = left;
         this.right = right;
     }
-    return BinaryNode;
-}());
-var BinarySearchTree = /** @class */ (function () {
-    function BinarySearchTree() {
+}
+class BinarySearchTree {
+    constructor() {
         this.root = null;
     }
-    BinarySearchTree.prototype.add = function (data) {
-        var node = this.root;
+    add(data) {
+        const node = this.root;
         if (node === null) {
             this.root = new BinaryNode(data, undefined, undefined);
             return;
         }
         else {
-            var searchTree_1 = function (node) {
+            const searchTree = (node) => {
                 if (data && node && node.data) {
                     if (data < node.data) {
                         if (node.left === null) {
@@ -30,7 +29,7 @@ var BinarySearchTree = /** @class */ (function () {
                             return;
                         }
                         else if (node.left) {
-                            return searchTree_1(node.left);
+                            return searchTree(node.left);
                         }
                     }
                     else if (data > node.data) {
@@ -39,37 +38,37 @@ var BinarySearchTree = /** @class */ (function () {
                             return;
                         }
                         else if (node.right) {
-                            return searchTree_1(node.right);
+                            return searchTree(node.right);
                         }
                     }
                     else {
                         return null;
                     }
                 }
-                return searchTree_1(node);
+                return searchTree(node);
             };
         }
-    };
-    BinarySearchTree.prototype.findMin = function () {
-        var current = this.root;
+    }
+    findMin() {
+        let current = this.root;
         while (current && current.left !== null) {
             current = current.left;
         }
         if (current) {
             return current.data;
         }
-    };
-    BinarySearchTree.prototype.findMax = function () {
-        var current = this.root;
+    }
+    findMax() {
+        let current = this.root;
         while (current && current.right !== null) {
             current = current.right;
         }
         if (current) {
             return current.data;
         }
-    };
-    BinarySearchTree.prototype.find = function (data) {
-        var current = this.root;
+    }
+    find(data) {
+        let current = this.root;
         if (current) {
             while (current && current.data !== data) {
                 if (current.data && data < current.data) {
@@ -84,9 +83,9 @@ var BinarySearchTree = /** @class */ (function () {
             }
             return current;
         }
-    };
-    BinarySearchTree.prototype.isPresent = function (data) {
-        var current = this.root;
+    }
+    isPresent(data) {
+        let current = this.root;
         while (current) {
             if (data === current.data) {
                 return true;
@@ -99,9 +98,9 @@ var BinarySearchTree = /** @class */ (function () {
             }
         }
         return false;
-    };
-    BinarySearchTree.prototype.remove = function (data) {
-        var removeNode = function (node, data) {
+    }
+    remove(data) {
+        const removeNode = (node, data) => {
             if (node == null) {
                 return null;
             }
@@ -119,7 +118,7 @@ var BinarySearchTree = /** @class */ (function () {
                     return node.left;
                 }
                 // node has two children
-                var tempNode = node.right;
+                let tempNode = node.right;
                 while (tempNode.left) {
                     tempNode = tempNode.left;
                 }
@@ -143,90 +142,88 @@ var BinarySearchTree = /** @class */ (function () {
         if (this.root) {
             this.root = removeNode(this.root, data);
         }
-    };
-    BinarySearchTree.prototype.isBalanced = function () {
+    }
+    isBalanced() {
         return this.findMinHeight() >= this.findMaxHeight() - 1;
-    };
-    BinarySearchTree.prototype.findMinHeight = function (node) {
-        if (node === void 0) { node = this.root; }
+    }
+    findMinHeight(node = this.root) {
         if (node == null) {
             return -1;
         }
-        var left = this.findMinHeight(node.left);
-        var right = this.findMinHeight(node.right);
+        const left = this.findMinHeight(node.left);
+        const right = this.findMinHeight(node.right);
         if (left < right) {
             return left + 1;
         }
         else {
             return right + 1;
         }
-    };
-    BinarySearchTree.prototype.findMaxHeight = function (node) {
-        if (node === void 0) { node = this.root; }
+    }
+    findMaxHeight(node = this.root) {
         if (node == null) {
             return -1;
         }
-        var left = this.findMaxHeight(node.left);
-        var right = this.findMaxHeight(node.right);
+        const left = this.findMaxHeight(node.left);
+        const right = this.findMaxHeight(node.right);
         if (left > right) {
             return left + 1;
         }
         else {
             return right + 1;
         }
-    };
-    BinarySearchTree.prototype.inOrder = function () {
+    }
+    inOrder() {
         if (this.root == null) {
             return null;
         }
         else {
-            var result_1 = new Array();
-            var traverseInOrder_1 = function (node) {
-                node.left && traverseInOrder_1(node.left);
-                result_1.push(node.data);
-                node.right && traverseInOrder_1(node.right);
+            const result = new Array();
+            const traverseInOrder = (node) => {
+                node.left && traverseInOrder(node.left);
+                result.push(node.data);
+                node.right && traverseInOrder(node.right);
             };
-            traverseInOrder_1(this.root);
-            return result_1;
+            traverseInOrder(this.root);
+            return result;
         }
-    };
-    BinarySearchTree.prototype.preOrder = function () {
+    }
+    preOrder() {
         if (this.root == null) {
             return null;
         }
         else {
-            var result_2 = new Array();
-            var traversePreOrder_1 = function (node) {
-                result_2.push(node.data);
-                node.left && traversePreOrder_1(node.left);
-                node.right && traversePreOrder_1(node.right);
+            const result = new Array();
+            const traversePreOrder = (node) => {
+                result.push(node.data);
+                node.left && traversePreOrder(node.left);
+                node.right && traversePreOrder(node.right);
             };
-            traversePreOrder_1(this.root);
-            return result_2;
+            traversePreOrder(this.root);
+            return result;
         }
-    };
-    BinarySearchTree.prototype.postOrder = function () {
+    }
+    postOrder() {
         if (this.root == null) {
             return null;
         }
         else {
-            var result_3 = new Array();
-            var traversePostOrder_1 = function (node) {
-                node.left && traversePostOrder_1(node.left);
-                node.right && traversePostOrder_1(node.right);
-                result_3.push(node.data);
+            const result = new Array();
+            const traversePostOrder = (node) => {
+                node.left && traversePostOrder(node.left);
+                node.right && traversePostOrder(node.right);
+                result.push(node.data);
             };
-            traversePostOrder_1(this.root);
-            return result_3;
+            traversePostOrder(this.root);
+            return result;
         }
-    };
-    BinarySearchTree.prototype.levelOrder = function () {
-        var result = [];
-        var Q = [];
+    }
+    levelOrder() {
+        const result = [];
+        const Q = [];
         if (this.root != null) {
             Q.push(this.root);
             while (Q.length > 0) {
-                var node = Q.shift();
+                const node = Q.shift();
                 if (node) {
                     result.push(node.data);
                 }
@@ -244,7 +241,6 @@ var BinarySearchTree = /** @class */ (function () {
         else {
             return null;
         }
-    };
-    return BinarySearchTree;
-}());
+    }
+}
 exports.default = BinarySearchTree;

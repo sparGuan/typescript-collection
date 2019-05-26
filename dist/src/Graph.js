@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Graph = /** @class */ (function () {
-    function Graph(isDirected, edges, vertices) {
-        if (isDirected === void 0) { isDirected = false; }
+class Graph {
+    constructor(isDirected = false, edges, vertices) {
         this.isDirected = isDirected;
         this.edges = edges;
         this.vertices = vertices;
@@ -14,44 +13,44 @@ var Graph = /** @class */ (function () {
      * @param {GraphVertex} newVertex
      * @returns {Graph}
      */
-    Graph.prototype.addVertex = function (newVertex) {
+    addVertex(newVertex) {
         this.vertices[newVertex.getKey()] = newVertex;
         return this;
-    };
+    }
     /**
      * @param {string} vertexKey
      * @returns GraphVertex
      */
-    Graph.prototype.getVertexByKey = function (vertexKey) {
+    getVertexByKey(vertexKey) {
         return this.vertices[vertexKey];
-    };
+    }
     /**
      * @param {GraphVertex} vertex
      * @returns {GraphVertex[]}
      */
-    Graph.prototype.getNeighbors = function (vertex) {
+    getNeighbors(vertex) {
         return vertex.getNeighbors();
-    };
+    }
     /**
      * @return {GraphVertex[]}
      */
-    Graph.prototype.getAllVertices = function () {
+    getAllVertices() {
         return Object.values(this.vertices);
-    };
+    }
     /**
      * @return {GraphEdge[]}
      */
-    Graph.prototype.getAllEdges = function () {
+    getAllEdges() {
         return Object.values(this.edges);
-    };
+    }
     /**
      * @param {GraphEdge} edge
      * @returns {Graph}
      */
-    Graph.prototype.addEdge = function (edge) {
+    addEdge(edge) {
         // Try to find and end start vertices.
-        var startVertex = this.getVertexByKey(edge.startVertex.getKey());
-        var endVertex = this.getVertexByKey(edge.endVertex.getKey());
+        let startVertex = this.getVertexByKey(edge.startVertex.getKey());
+        let endVertex = this.getVertexByKey(edge.endVertex.getKey());
         // Insert start vertex if it wasn't inserted.
         if (!startVertex) {
             this.addVertex(edge.startVertex);
@@ -80,11 +79,11 @@ var Graph = /** @class */ (function () {
             endVertex.addEdge(edge);
         }
         return this;
-    };
+    }
     /**
      * @param {GraphEdge} edge
      */
-    Graph.prototype.deleteEdge = function (edge) {
+    deleteEdge(edge) {
         // Delete edge from the list of edges.
         if (this.edges[edge.getKey()]) {
             delete this.edges[edge.getKey()];
@@ -93,87 +92,84 @@ var Graph = /** @class */ (function () {
             throw new Error('Edge not found in graph');
         }
         // Try to find and end start vertices and delete edge from them.
-        var startVertex = this.getVertexByKey(edge.startVertex.getKey());
-        var endVertex = this.getVertexByKey(edge.endVertex.getKey());
+        const startVertex = this.getVertexByKey(edge.startVertex.getKey());
+        const endVertex = this.getVertexByKey(edge.endVertex.getKey());
         startVertex.deleteEdge(edge);
         endVertex.deleteEdge(edge);
-    };
+    }
     /**
      * @param {GraphVertex} startVertex
      * @param {GraphVertex} endVertex
      * @return {(GraphEdge|null)}
      */
-    Graph.prototype.findEdge = function (startVertex, endVertex) {
-        var vertex = this.getVertexByKey(startVertex.getKey());
+    findEdge(startVertex, endVertex) {
+        const vertex = this.getVertexByKey(startVertex.getKey());
         if (!vertex) {
             return null;
         }
         return vertex.findEdge(endVertex);
-    };
+    }
     /**
      * @return {number}
      */
-    Graph.prototype.getWeight = function () {
-        return this.getAllEdges().reduce(function (weight, graphEdge) {
+    getWeight() {
+        return this.getAllEdges().reduce((weight, graphEdge) => {
             return weight + graphEdge.weight;
         }, 0);
-    };
+    }
     /**
      * Reverse all the edges in directed graph.
      * @return {Graph}
      */
-    Graph.prototype.reverse = function () {
-        var _this = this;
+    reverse() {
         /** @param {GraphEdge} edge */
-        this.getAllEdges().forEach(function (edge) {
+        this.getAllEdges().forEach((edge) => {
             // Delete straight edge from graph and from vertices.
-            _this.deleteEdge(edge);
+            this.deleteEdge(edge);
             // Reverse the edge.
             edge.reverse();
             // Add reversed edge back to the graph and its vertices.
-            _this.addEdge(edge);
+            this.addEdge(edge);
         });
         return this;
-    };
+    }
     /**
      * @return {object}
      */
-    Graph.prototype.getVerticesIndices = function () {
-        var verticesIndices = {};
-        this.getAllVertices().forEach(function (vertex, index) {
+    getVerticesIndices() {
+        const verticesIndices = {};
+        this.getAllVertices().forEach((vertex, index) => {
             verticesIndices[vertex.getKey()] = index;
         });
         return verticesIndices;
-    };
+    }
     /**
      * @return {*[][]}
      */
-    Graph.prototype.getAdjacencyMatrix = function () {
-        var _this = this;
-        var vertices = this.getAllVertices();
-        var verticesIndices = this.getVerticesIndices();
+    getAdjacencyMatrix() {
+        const vertices = this.getAllVertices();
+        const verticesIndices = this.getVerticesIndices();
         // Init matrix with infinities meaning that there is no ways of
         // getting from one vertex to another yet.
-        var adjacencyMatrix = Array(vertices.length)
+        const adjacencyMatrix = Array(vertices.length)
             .fill(null)
-            .map(function () {
+            .map(() => {
             return Array(vertices.length).fill(Infinity);
         });
         // Fill the columns.
-        vertices.forEach(function (vertex, vertexIndex) {
-            vertex.getNeighbors().forEach(function (neighbor) {
-                var neighborIndex = verticesIndices[neighbor.getKey()];
-                adjacencyMatrix[vertexIndex][neighborIndex] = _this.findEdge(vertex, neighbor).weight;
+        vertices.forEach((vertex, vertexIndex) => {
+            vertex.getNeighbors().forEach((neighbor) => {
+                const neighborIndex = verticesIndices[neighbor.getKey()];
+                adjacencyMatrix[vertexIndex][neighborIndex] = this.findEdge(vertex, neighbor).weight;
             });
         });
         return adjacencyMatrix;
-    };
+    }
     /**
      * @return {string}
      */
-    Graph.prototype.toString = function () {
+    toString() {
         return Object.keys(this.vertices).toString();
-    };
-    return Graph;
-}());
+    }
+}
 exports.default = Graph;

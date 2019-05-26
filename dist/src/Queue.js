@@ -1,31 +1,30 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Queue = /** @class */ (function () {
-    function Queue() {
+class Queue {
+    constructor() {
         // 执行队列
         this.collection = [];
     }
-    Queue.prototype.print = function () {
+    print() {
         console.log(this.collection);
-    };
-    Queue.prototype.enqueue = function (element) {
+    }
+    enqueue(element) {
         this.collection.push(element);
-    };
-    Queue.prototype.dequeue = function () {
+    }
+    dequeue() {
         return this.collection.shift();
-    };
-    Queue.prototype.first = function () {
+    }
+    first() {
         return this.collection[0];
-    };
-    Queue.prototype.last = function () {
+    }
+    last() {
         return this.collection[this.collection.length - 1];
-    };
-    Queue.prototype.size = function () {
+    }
+    size() {
         return this.collection.length;
-    };
-    Queue.prototype.isEmpty = function () {
+    }
+    isEmpty() {
         return this.collection.length === 0;
-    };
-    return Queue;
-}());
+    }
+}
 exports.default = Queue;

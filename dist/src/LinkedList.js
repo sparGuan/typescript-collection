@@ -1,42 +1,41 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var BinaryNode = /** @class */ (function () {
-    function BinaryNode(element, next) {
+class BinaryNode {
+    constructor(element, next) {
         this.element = element;
         this.next = next;
         this.element = element;
         this.next = null;
     }
-    return BinaryNode;
-}());
-var LinkedList = /** @class */ (function () {
-    function LinkedList() {
+}
+class LinkedList {
+    constructor() {
         this.length = 0;
         this.head = null;
     }
-    LinkedList.prototype.getSize = function () {
+    getSize() {
         return this.length;
-    };
-    LinkedList.prototype.getHead = function () {
+    }
+    getHead() {
         return this.head;
-    };
-    LinkedList.prototype.add = function (element) {
-        var node = new BinaryNode(element, null);
+    }
+    add(element) {
+        const node = new BinaryNode(element, null);
         if (this.head === null) {
             this.head = node;
         }
         else {
-            var currentNode = this.head;
+            let currentNode = this.head;
             while (currentNode.next) {
                 currentNode = currentNode.next;
             }
             currentNode.next = node;
         }
         this.length++;
-    };
-    LinkedList.prototype.remove = function (element) {
-        var currentNode = this.head;
-        var previousNode;
+    }
+    remove(element) {
+        let currentNode = this.head;
+        let previousNode;
         if (currentNode && currentNode.element === element) {
             this.head = currentNode.next;
         }
@@ -50,13 +49,13 @@ var LinkedList = /** @class */ (function () {
             }
         }
         this.length--;
-    };
-    LinkedList.prototype.isEmpty = function () {
+    }
+    isEmpty() {
         return this.length === 0;
-    };
-    LinkedList.prototype.indexOf = function (element) {
-        var currentNode = this.head;
-        var index = -1;
+    }
+    indexOf(element) {
+        let currentNode = this.head;
+        let index = -1;
         while (currentNode) {
             index++;
             if (currentNode.element === element) {
@@ -65,10 +64,10 @@ var LinkedList = /** @class */ (function () {
             currentNode = currentNode.next;
         }
         return -1;
-    };
-    LinkedList.prototype.elementAt = function (index) {
-        var currentNode = this.head;
-        var count = 0;
+    }
+    elementAt(index) {
+        let currentNode = this.head;
+        let count = 0;
         while (count < index) {
             count++;
             if (currentNode) {
@@ -78,12 +77,12 @@ var LinkedList = /** @class */ (function () {
         if (currentNode) {
             return currentNode.element;
         }
-    };
-    LinkedList.prototype.addAt = function (index, element) {
-        var node = new BinaryNode(element, null);
-        var currentNode = this.head;
-        var previousNode;
-        var currentIndex = 0;
+    }
+    addAt(index, element) {
+        const node = new BinaryNode(element, null);
+        let currentNode = this.head;
+        let previousNode;
+        let currentIndex = 0;
         if (index > this.length) {
             return false;
         }
@@ -105,11 +104,11 @@ var LinkedList = /** @class */ (function () {
             }
         }
         this.length++;
-    };
-    LinkedList.prototype.removeAt = function (index) {
-        var currentNode = this.head;
-        var previousNode;
-        var currentIndex = 0;
+    }
+    removeAt(index) {
+        let currentNode = this.head;
+        let previousNode;
+        let currentIndex = 0;
         if (index < 0 || index >= this.length) {
             return null;
         }
@@ -132,7 +131,6 @@ var LinkedList = /** @class */ (function () {
         if (currentNode) {
             return currentNode.element;
         }
-    };
-    return LinkedList;
-}());
+    }
+}
 exports.default = LinkedList;
